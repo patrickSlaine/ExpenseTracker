@@ -13,7 +13,7 @@ public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
-    private int expenseId;
+    private Long expenseId;
     @Column(name="amount",nullable = false)
     @NotBlank(message="'name' is mandatory")
     private double amount;
@@ -26,7 +26,7 @@ public class Expense {
     @Column(name="description")
     private String description;
 
-    public Expense(int expenseId, double amount, Date date, String category,String description) {
+    public Expense(Long expenseId, double amount, Date date, String category,String description) {
         this.expenseId = expenseId;
         this.amount = amount;
         this.date = date;
@@ -38,11 +38,11 @@ public class Expense {
 
     }
 
-    public int getExpenseId() {
+    public Long getExpenseId() {
         return expenseId;
     }
 
-    public void setExpenseId(int expenseId) {
+    public void setExpenseId(Long expenseId) {
         this.expenseId = expenseId;
     }
 

@@ -11,7 +11,7 @@ public class Budget {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id",nullable = false)
-    private int budgetId;
+    private Long budgetId;
 
     @Column(name="category", nullable = false)
     @NotBlank
@@ -21,7 +21,7 @@ public class Budget {
     @NotBlank
     private double monthlyLimit;
 
-    public Budget(int budgetId, String category, double monthlyLimit) {
+    public Budget(Long budgetId, String category, double monthlyLimit) {
         this.budgetId = budgetId;
         this.category = category;
         this.monthlyLimit = monthlyLimit;
@@ -31,11 +31,11 @@ public class Budget {
 
     }
 
-    public int getBudgetId() {
+    public Long getBudgetId() {
         return budgetId;
     }
 
-    public void setBudgetId(int budgetId) {
+    public void setBudgetId(Long budgetId) {
         this.budgetId = budgetId;
     }
 
