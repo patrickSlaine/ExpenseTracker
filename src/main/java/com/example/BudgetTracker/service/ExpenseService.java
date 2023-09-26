@@ -11,9 +11,9 @@ import java.util.Optional;
 @Service
 public class ExpenseService {
 
+    @Autowired
     private final ExpenseRepository expenseRepository;
 
-    @Autowired
     public ExpenseService(ExpenseRepository expenseRepository) {
         this.expenseRepository = expenseRepository;
     }
