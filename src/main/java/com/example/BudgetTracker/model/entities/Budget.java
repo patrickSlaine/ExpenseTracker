@@ -2,6 +2,8 @@ package com.example.BudgetTracker.model.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 
 @Entity
@@ -18,7 +20,8 @@ public class Budget {
     private String category;
 
     @Column(name="monthly_limit", nullable = false)
-    @NotBlank
+    @NotNull
+    @Positive
     private double monthlyLimit;
 
     public Budget(Long budgetId, String category, double monthlyLimit) {

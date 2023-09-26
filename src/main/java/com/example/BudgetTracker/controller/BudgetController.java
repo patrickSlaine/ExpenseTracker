@@ -25,7 +25,12 @@ public class BudgetController {
 
     @GetMapping("/{id}")
     public Budget getById(@PathVariable Long id) {
-        return budgetService.getBudgetById(id);
+        try{
+            return budgetService.getBudgetById(id);
+        }
+        catch(Exception exception){
+            throw new ResponseStatusException(NOT_FOUND,exception.getMessage());
+        }
     }
 
     @PostMapping
@@ -39,12 +44,19 @@ public class BudgetController {
 
     @PutMapping("/{id}")
     public Budget put(@PathVariable Long id, @Valid @RequestBody Budget budget) {
-        return budgetService.updateBudget(id, budget);
+        try{
+            return budgetService.updateBudget(id, budget);
+        }catch(Exception exception){
+            throw new ResponseStatusException(NOT_FOUND, exception.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        budgetService.deleteBudget(id);
+        try{
+            budgetService.deleteBudget(id);
+        }catch(Exception exception){
+            throw new ResponseStatusException(NOT_FOUND, exception.getMessage());
+        }
     }
-
 }

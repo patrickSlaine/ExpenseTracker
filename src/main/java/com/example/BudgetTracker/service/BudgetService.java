@@ -39,13 +39,15 @@ public class BudgetService {
             budget.setMonthlyLimit(updatedBudget.getMonthlyLimit());
             return budgetRepository.save(budget);
         } else {
-
-            return null;
+            throw new BudgetNotFoundException("No Budget with Id: "+ id);
         }
     }
 
     public void deleteBudget(Long id) {
-        budgetRepository.deleteById(id);
+            if(!budgetRepository.findById(id).isPresent()){
+                throw new BudgetNotFoundException("No Budget with Id: "+ id);
+            }
+            budgetRepository.deleteById(id);
     }
 }
 
