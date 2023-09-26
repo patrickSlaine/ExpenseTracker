@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@ActiveProfiles({})
+@ActiveProfiles({"dbseeder"})
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles({"h2","dbseeder"})
