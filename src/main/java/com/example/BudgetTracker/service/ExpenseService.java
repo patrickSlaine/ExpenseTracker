@@ -12,7 +12,7 @@ import java.util.Optional;
 public class ExpenseService {
 
     @Autowired
-    private final ExpenseRepository expenseRepository;
+    private ExpenseRepository expenseRepository;
 
     public ExpenseService(ExpenseRepository expenseRepository) {
         this.expenseRepository = expenseRepository;

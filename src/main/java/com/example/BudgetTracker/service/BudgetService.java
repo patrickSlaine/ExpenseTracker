@@ -11,9 +11,9 @@ import java.util.Optional;
 @Service
 public class BudgetService {
 
-    private final BudgetRepository budgetRepository;
-
     @Autowired
+    private BudgetRepository budgetRepository;
+
     public BudgetService(BudgetRepository budgetRepository) {
         this.budgetRepository = budgetRepository;
     }
