@@ -1,6 +1,7 @@
 package com.example.BudgetTracker.controller;
 
 import com.example.BudgetTracker.model.entities.Expense;
+import com.example.BudgetTracker.model.exceptions.ExpenseNotFoundException;
 import com.example.BudgetTracker.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
