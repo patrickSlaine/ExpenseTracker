@@ -28,7 +28,7 @@ public class DBSeeder implements CommandLineRunner {
             new Expense(null, 1500, new Date(), "Food", "I like food") ,
             new Expense(null, 250, new Date(), "Drink", "Starbucks for life") ,
             new Expense(null, 200, new Date(), "Fuel", "Car") ,
-            new Expense(null, 1000, new Date(), "Housing", "Rent payment")
+            new Expense(null, 1000, new Date(), "Food", "Rent payment")
     );
 
     @Autowired

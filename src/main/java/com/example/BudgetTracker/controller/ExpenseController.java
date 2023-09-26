@@ -4,6 +4,8 @@ import com.example.BudgetTracker.model.entities.Expense;
 import com.example.BudgetTracker.model.exceptions.ExpenseNotFoundException;
 import com.example.BudgetTracker.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -58,4 +60,10 @@ public class ExpenseController {
             throw new ResponseStatusException(NOT_FOUND, exception.getMessage());
         }
     }
+    @GetMapping("/api/expenses-by-category")
+    public ResponseEntity<List<Expense>> getExpensesByCategory(@RequestParam String category) {
+        List<Expense> expenses = expenseService.getExpensesByCategory(category);
+        return new ResponseEntity<>(expenses, HttpStatus.OK);
+    }
+
 }
