@@ -47,6 +47,8 @@ public class ExpenseService {
 
             return null;
         }
+
+
     }
     public Optional<Expense> getExpenseById(Long id) {
         return expenseRepository.findById(id);
@@ -56,10 +58,6 @@ public class ExpenseService {
         Sort sort = Sort.by(Sort.Order.asc("amount"));
         return expenseRepository.findAll(sort);
     }
-
-
-
-
 
 
     public List<Expense> getExpensesByCategory(String category) {
