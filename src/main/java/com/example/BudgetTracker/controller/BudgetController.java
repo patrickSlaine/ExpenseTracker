@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -53,16 +54,26 @@ public class BudgetController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        try{
+        try {
             budgetService.deleteBudget(id);
-        }catch(Exception exception){
-            throw new ResponseStatusException(NOT_FOUND, exception.getMessage());
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(NOT_FOUND, "Budget not found with ID: " + id);
+        } catch (Exception e) {
+            throw new ResponseStatusException(NOT_FOUND, "Error occurred while deleting the budget with ID: " + id, e);
         }
     }
 
     @GetMapping("/byCategory/{category}")
     public List<Budget> getBudgetsByCategory(@PathVariable String category) {
-        return budgetService.getBudgetsByCategory(category);
+        try {
+            List<Budget> budgets = budgetService.getBudgetsByCategory(category);
+            if (budgets.isEmpty()) {
+                throw new ResponseStatusException(NOT_FOUND, "No budgets found for the specified category");
+            }
+            return budgets;
+        } catch (Exception e) {
+            throw new ResponseStatusException(NOT_FOUND, "Error occurred while fetching budgets by category", e);
+        }
     }
 
 }

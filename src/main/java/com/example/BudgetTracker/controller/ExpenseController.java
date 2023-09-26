@@ -99,25 +99,14 @@ public class ExpenseController {
         return availableBudget;
     }
 
-
-//    @GetMapping("budget/{id}")
-//    public Budget getBudget(@PathVariable Long id) {
-//        Optional<Budget> budgetOptional = Optional.ofNullable(budgetService.getBudgetById(id));
-//
-//        if (budgetOptional.isPresent()) {
-//            return budgetOptional.get();
-//        } else {
-//            throw new ResponseStatusException(NOT_FOUND, "Budget not found");
-//        }
-//    }
-
-
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         try {
             expenseService.deleteExpense(id);
         } catch (ExpenseNotFoundException exception) {
             throw new ResponseStatusException(NOT_FOUND, exception.getMessage());
+        } catch (Exception e) {
+            throw new ResponseStatusException(NOT_FOUND, "Error occurred while deleting the expense with ID: " + id, e);
         }
     }
     @GetMapping("/api/expenses-by-category")
@@ -131,5 +120,15 @@ public class ExpenseController {
     public ResponseEntity<List<Expense>> getExpensesSortedByAmount() {
         List<Expense> expenses = expenseService.getExpensesSortedByAmount();
         return new ResponseEntity<>(expenses, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteAll")
+    public String deleteAllExpenses() {
+        try {
+            expenseService.deleteAllExpenses();
+            return "All expenses have been deleted successfully.";
+        } catch (Exception e) {
+            return "Error occurred: " + e.getMessage();
+        }
     }
 }

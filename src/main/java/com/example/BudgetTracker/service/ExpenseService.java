@@ -1,10 +1,14 @@
 package com.example.BudgetTracker.service;
 
 import com.example.BudgetTracker.model.entities.Expense;
+import com.example.BudgetTracker.model.exceptions.ExpenseNotFoundException;
 import com.example.BudgetTracker.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+
 
 import java.util.List;
 import java.util.Map;
@@ -24,14 +28,17 @@ public class ExpenseService {
     public List<Expense> getAllExpenses() {
         return expenseRepository.findAll();
     }
-    public Expense saveExpense(Expense expense) {
-        return expenseRepository.save(expense);
-    }
+
 
     public void deleteExpense(Long id) {
-        expenseRepository.deleteById(id);
-    }
+        Optional<Expense> expenseOptional = expenseRepository.findById(id);
 
+        if (expenseOptional.isPresent()) {
+            expenseRepository.deleteById(id);
+        } else {
+            throw new ExpenseNotFoundException("Expense not found with ID: " + id);
+        }
+    }
 
     public Expense updateExpense(Long id, Expense updatedExpense) {
         Optional<Expense> existingExpenseOptional = expenseRepository.findById(id);
@@ -44,8 +51,7 @@ public class ExpenseService {
             existingExpense.setDescription(updatedExpense.getDescription());
             return expenseRepository.save(existingExpense);
         } else {
-
-            return null;
+            throw new ExpenseNotFoundException("Expense not found with ID: " + id);
         }
 
 
@@ -62,5 +68,30 @@ public class ExpenseService {
 
     public List<Expense> getExpensesByCategory(String category) {
         return expenseRepository.findByCategory(category);
+
     }
+
+    public Expense saveExpense(Expense expense) {
+        Long id = expense.getExpenseId(); // Assuming ID is a unique identifier
+
+        // Check if an expense with the same ID already exists
+        if (expenseRepository.existsById(id)) {
+            throw new RuntimeException("Expense with the same ID already exists.");
+        }
+
+        try {
+            // Attempt to save the expense
+            Expense savedExpense = expenseRepository.save(expense);
+            return savedExpense;
+        } catch (Exception e) {
+            // Handle other exceptions
+            throw new RuntimeException("Error occurred while saving the expense.", e);
+        }
+    }
+
+    @Transactional
+    public void deleteAllExpenses() {
+        expenseRepository.deleteAll();
+    }
+
 }
