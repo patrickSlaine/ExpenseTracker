@@ -59,4 +59,10 @@ public class BudgetController {
             throw new ResponseStatusException(NOT_FOUND, exception.getMessage());
         }
     }
+
+    @GetMapping("/byCategory/{category}")
+    public List<Budget> getBudgetsByCategory(@PathVariable String category) {
+        return budgetService.getBudgetsByCategory(category);
+    }
+
 }

@@ -49,5 +49,9 @@ public class BudgetService {
             }
             budgetRepository.deleteById(id);
     }
+
+    public List<Budget> getBudgetsByCategory(String category) {
+        return budgetRepository.findBudgetsByCategory(category);
+    }
 }
 
