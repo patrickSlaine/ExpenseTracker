@@ -49,6 +49,11 @@ public class ExpenseService {
 
             return null;
         }
+
+
     }
 
+    public List<Expense> getExpensesByCategory(String category) {
+        return expenseRepository.findByCategory(category);
+    }
 }
