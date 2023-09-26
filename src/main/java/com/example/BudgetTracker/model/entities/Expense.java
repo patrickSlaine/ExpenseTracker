@@ -2,6 +2,8 @@ package com.example.BudgetTracker.model.entities;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.hibernate.validator.constraints.NotBlank;
 
 import java.util.Date;
@@ -14,11 +16,11 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
     private Long expenseId;
-    @Column(name="amount",nullable = false)
-    @NotBlank(message="'name' is mandatory")
+    @NotNull(message = "'amount' is mandatory")
+    @Positive(message = "'amount' must be greater than zero")
     private double amount;
-    @Column(name="date", nullable=false)
-    @NotBlank(message="'date' is mandatory")
+    @Column(name = "date", nullable = false)
+    @NotNull(message = "'date' is mandatory")
     private Date date;
     @Column(name="category", nullable=false)
     @NotBlank(message="'category' is mandatory")
