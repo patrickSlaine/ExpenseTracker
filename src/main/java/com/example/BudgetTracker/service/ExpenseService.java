@@ -44,8 +44,6 @@ public class ExpenseService {
             existingExpense.setDate(updatedExpense.getDate());
             existingExpense.setCategory(updatedExpense.getCategory());
             existingExpense.setDescription(updatedExpense.getDescription());
-
-
             return expenseRepository.save(existingExpense);
         } else {
 
