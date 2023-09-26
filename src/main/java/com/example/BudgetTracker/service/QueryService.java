@@ -50,7 +50,15 @@ public class QueryService {
             return summary;
         }).collect(Collectors.toList());
     }
+    public Map<String, Double> getTotalExpensesByCategory() {
+        List<Expense> expenses = expenseService.getAllExpenses();
 
+        Map<String, Double> totalExpensesByCategory = expenses.stream()
+                .collect(Collectors.groupingBy(Expense::getCategory,
+                        Collectors.summingDouble(Expense::getAmount)));
+
+        return totalExpensesByCategory;
+    }
 
 
 }
