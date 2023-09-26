@@ -1,2 +1,4 @@
-package com.example.BudgetTracker.controller;public class ExpenseControllerTest {
+package com.example.BudgetTracker.controller;
+
+public class ExpenseControllerTest {
 }
