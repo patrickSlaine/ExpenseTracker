@@ -22,8 +22,8 @@ public class BudgetService {
         return budgetRepository.findAll();
     }
 
-    public Optional<Budget> getBudgetById(Long id) {
-        return budgetRepository.findById(id);
+    public Budget getBudgetById(Long id) {
+        return budgetRepository.findById(id).get();
     }
 
     public Budget createBudget(Budget budget) {
