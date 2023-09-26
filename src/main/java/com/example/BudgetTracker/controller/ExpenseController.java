@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/expenses")
@@ -26,12 +27,14 @@ public class ExpenseController {
 
     @GetMapping("/{id}")
     public Expense getById(@PathVariable Long id) {
-        try {
-            return expenseService.getExpenseById(id);
-        } catch (ExpenseNotFoundException exception) {
-            throw new ResponseStatusException(NOT_FOUND, exception.getMessage());
+        Optional<Expense> expenseOptional = expenseService.getExpenseById(id);
+        if (expenseOptional.isPresent()) {
+            return expenseOptional.get();
+        } else {
+            throw new ExpenseNotFoundException("Expense not found with id: " + id);
         }
     }
+
 
     @PostMapping
     public Expense post(@Valid @RequestBody Expense expense) {
