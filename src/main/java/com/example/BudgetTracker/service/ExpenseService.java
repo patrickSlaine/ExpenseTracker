@@ -11,9 +11,9 @@ import java.util.Optional;
 @Service
 public class ExpenseService {
 
-    private final ExpenseRepository expenseRepository;
-
     @Autowired
+    private ExpenseRepository expenseRepository;
+
     public ExpenseService(ExpenseRepository expenseRepository) {
         this.expenseRepository = expenseRepository;
     }
@@ -22,8 +22,8 @@ public class ExpenseService {
         return expenseRepository.findAll();
     }
 
-    public Optional<Expense> getExpenseById(Long id) {
-        return expenseRepository.findById(id);
+    public Expense getExpenseById(Long id) {
+        return expenseRepository.findById(id).get();
     }
 
     public Expense saveExpense(Expense expense) {

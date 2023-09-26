@@ -11,9 +11,9 @@ import java.util.Optional;
 @Service
 public class BudgetService {
 
-    private final BudgetRepository budgetRepository;
-
     @Autowired
+    private BudgetRepository budgetRepository;
+
     public BudgetService(BudgetRepository budgetRepository) {
         this.budgetRepository = budgetRepository;
     }
@@ -22,8 +22,8 @@ public class BudgetService {
         return budgetRepository.findAll();
     }
 
-    public Optional<Budget> getBudgetById(Long id) {
-        return budgetRepository.findById(id);
+    public Budget getBudgetById(Long id) {
+        return budgetRepository.findById(id).get();
     }
 
     public Budget createBudget(Budget budget) {
