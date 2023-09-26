@@ -3,6 +3,7 @@ package com.example.BudgetTracker.service;
 import com.example.BudgetTracker.model.entities.Expense;
 import com.example.BudgetTracker.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,6 +49,13 @@ public class ExpenseService {
     public Optional<Expense> getExpenseById(Long id) {
         return expenseRepository.findById(id);
     };
+
+    public List<Expense> getExpensesSortedByAmount() {
+        Sort sort = Sort.by(Sort.Order.asc("amount"));
+        return expenseRepository.findAll(sort);
+    }
+
+
 
     public List<Expense> getExpensesByCategory(String category) {
         return expenseRepository.findByCategory(category);

@@ -12,7 +12,9 @@ import org.springframework.web.server.ResponseStatusException;
 import jakarta.validation.Valid;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -66,4 +68,10 @@ public class ExpenseController {
         return new ResponseEntity<>(expenses, HttpStatus.OK);
     }
 
+
+    @GetMapping("/sorted-by-amount")
+    public ResponseEntity<List<Expense>> getExpensesSortedByAmount() {
+        List<Expense> expenses = expenseService.getExpensesSortedByAmount();
+        return new ResponseEntity<>(expenses, HttpStatus.OK);
+    }
 }
