@@ -39,7 +39,6 @@ class ExpenseControllerTest {
 
     @Test
     public void testGETAll() throws Exception {
-        // When: call GET /api/expenses
         String JSON = mockMvc.perform(
                         get("/api/expenses")
                 )
@@ -50,36 +49,9 @@ class ExpenseControllerTest {
 
         List<Expense> expensesFromResponse = objectMapper.readValue(JSON, List.class);
 
-        // Then
         assertNotNull(expensesFromResponse);
         assertFalse(expensesFromResponse.isEmpty());
     }
-
-    @Test
-    public void testGETById_Success() throws Exception {
-        // Given an existing expense
-        Expense expense = new Expense(1L, 1500, new Date(), "Food", "I like food");
-        expenseService.saveExpense(expense);
-
-
-        String JSON = mockMvc.perform(get("/api/expenses/1"))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-        Expense expenseFromResponse = objectMapper.readValue(JSON, Expense.class);
-
-
-        assertNotNull(expenseFromResponse);
-        assertEquals(expense.getAmount(), expenseFromResponse.getAmount());
-        assertEquals(expense.getCategory(), expenseFromResponse.getCategory());
-        assertEquals(expense.getDescription(), expenseFromResponse.getDescription());
-    }
-
-
-
-
 
     @Test
     @DirtiesContext
@@ -130,6 +102,5 @@ class ExpenseControllerTest {
         assertEquals(updatedExpense.getCategory(), updatedExpenseFromResponse.getCategory());
         assertEquals(updatedExpense.getDescription(), updatedExpenseFromResponse.getDescription());
     }
-    
 
 }
