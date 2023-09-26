@@ -6,13 +6,17 @@ import com.example.BudgetTracker.model.exceptions.ExpenseNotFoundException;
 import com.example.BudgetTracker.service.BudgetService;
 import com.example.BudgetTracker.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.validation.Valid;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -33,12 +37,14 @@ public class ExpenseController {
 
     @GetMapping("/{id}")
     public Expense getById(@PathVariable Long id) {
-        try {
-            return expenseService.getExpenseById(id);
-        } catch (ExpenseNotFoundException exception) {
-            throw new ResponseStatusException(NOT_FOUND, exception.getMessage());
+        Optional<Expense> expenseOptional = expenseService.getExpenseById(id);
+        if (expenseOptional.isPresent()) {
+            return expenseOptional.get();
+        } else {
+            throw new ExpenseNotFoundException("Expense not found with id: " + id);
         }
     }
+
 
     @PostMapping
     public Expense post(@Valid @RequestBody Expense expense) {
@@ -113,5 +119,17 @@ public class ExpenseController {
         } catch (ExpenseNotFoundException exception) {
             throw new ResponseStatusException(NOT_FOUND, exception.getMessage());
         }
+    }
+    @GetMapping("/api/expenses-by-category")
+    public ResponseEntity<List<Expense>> getExpensesByCategory(@RequestParam String category) {
+        List<Expense> expenses = expenseService.getExpensesByCategory(category);
+        return new ResponseEntity<>(expenses, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/sorted-by-amount")
+    public ResponseEntity<List<Expense>> getExpensesSortedByAmount() {
+        List<Expense> expenses = expenseService.getExpensesSortedByAmount();
+        return new ResponseEntity<>(expenses, HttpStatus.OK);
     }
 }
