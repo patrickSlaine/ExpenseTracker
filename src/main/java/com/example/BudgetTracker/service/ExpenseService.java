@@ -35,4 +35,22 @@ public class ExpenseService {
     }
 
 
+    public Expense updateExpense(Long id, Expense updatedExpense) {
+        Optional<Expense> existingExpenseOptional = expenseRepository.findById(id);
+
+        if (existingExpenseOptional.isPresent()) {
+            Expense existingExpense = existingExpenseOptional.get();
+            existingExpense.setAmount(updatedExpense.getAmount());
+            existingExpense.setDate(updatedExpense.getDate());
+            existingExpense.setCategory(updatedExpense.getCategory());
+            existingExpense.setDescription(updatedExpense.getDescription());
+
+
+            return expenseRepository.save(existingExpense);
+        } else {
+
+            return null;
+        }
+    }
+
 }
