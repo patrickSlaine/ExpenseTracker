@@ -1,9 +1,5 @@
 package com.example.BudgetTracker.controller;
 
-<<<<<<< HEAD
-public class BudgetController {
-
-=======
 import com.example.BudgetTracker.model.entities.Budget;
 import com.example.BudgetTracker.service.BudgetService;
 import jakarta.validation.Valid;
@@ -51,5 +47,5 @@ public class BudgetController {
     public void delete(@PathVariable Long id){
         budgetService.deleteBudget(id);
     }
->>>>>>> 940e7e1c8931bb50e3f55e90690ed02d4e2fb098
+
 }
