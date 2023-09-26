@@ -1,6 +1,7 @@
 package com.example.BudgetTracker.service;
 
 import com.example.BudgetTracker.model.entities.Budget;
+import com.example.BudgetTracker.model.exceptions.BudgetNotFoundException;
 import com.example.BudgetTracker.repository.BudgetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class BudgetService {
     }
 
     public Budget getBudgetById(Long id) {
-        return budgetRepository.findById(id).get();
+        return budgetRepository.findById(id).orElseThrow(()-> new BudgetNotFoundException("No Budget with Id: "+ id));
     }
 
     public Budget createBudget(Budget budget) {
