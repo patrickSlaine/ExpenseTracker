@@ -4,6 +4,8 @@ import com.example.BudgetTracker.model.entities.Budget;
 import com.example.BudgetTracker.service.BudgetService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -20,10 +22,15 @@ public class BudgetController {
     private BudgetService budgetService;
 
     @GetMapping
-    public List<Budget> getAll() {
-        return budgetService.getAllBudgets();
-    }
+    public ResponseEntity<?> getAll() {
+        List<Budget> budgets = budgetService.getAllBudgets();
 
+        if (budgets.isEmpty()) {
+            return ResponseEntity.ok("No budgets found.");
+        } else {
+            return ResponseEntity.ok(budgets);
+        }
+    }
     @GetMapping("/{id}")
     public Budget getById(@PathVariable Long id) {
         try{
@@ -73,6 +80,23 @@ public class BudgetController {
             return budgets;
         } catch (Exception e) {
             throw new ResponseStatusException(NOT_FOUND, "Error occurred while fetching budgets by category", e);
+        }
+    }
+
+    @DeleteMapping("/deleteAll")
+    public ResponseEntity<String> deleteAllBudgets() {
+        // Check if there are any budgets to delete
+        List<Budget> budgets = budgetService.getAllBudgets();
+        if (budgets.isEmpty()) {
+            return ResponseEntity.ok("No budgets to delete.");
+        }
+
+        try {
+            budgetService.deleteAllBudgets();
+            return ResponseEntity.ok("All budgets have been deleted successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error occurred: " + e.getMessage());
         }
     }
 

@@ -5,6 +5,7 @@ import com.example.BudgetTracker.model.exceptions.BudgetNotFoundException;
 import com.example.BudgetTracker.repository.BudgetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -52,6 +53,11 @@ public class BudgetService {
 
     public List<Budget> getBudgetsByCategory(String category) {
         return budgetRepository.findBudgetsByCategory(category);
+    }
+
+    @Transactional
+    public void deleteAllBudgets() {
+        budgetRepository.deleteAll();
     }
 }
 
