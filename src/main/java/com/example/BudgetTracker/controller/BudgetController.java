@@ -21,7 +21,7 @@ public class BudgetController {
     @Autowired
     private BudgetService budgetService;
 
-    @GetMapping
+    @GetMapping("/get-all-budgets")
     public ResponseEntity<?> getAll() {
         List<Budget> budgets = budgetService.getAllBudgets();
 
@@ -31,7 +31,7 @@ public class BudgetController {
             return ResponseEntity.ok(budgets);
         }
     }
-    @GetMapping("/{id}")
+    @GetMapping("get-one-budget/{id}")
     public Budget getById(@PathVariable Long id) {
         try{
             return budgetService.getBudgetById(id);
@@ -41,7 +41,7 @@ public class BudgetController {
         }
     }
 
-    @PostMapping
+    @PostMapping("add-new-budget/{id}")
     public Budget post(@Valid @RequestBody Budget budget) {
         try {
             return budgetService.createBudget(budget);
@@ -50,7 +50,7 @@ public class BudgetController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("edit-one-budget/{id}")
     public Budget put(@PathVariable Long id, @Valid @RequestBody Budget budget) {
         try{
             return budgetService.updateBudget(id, budget);
@@ -59,7 +59,7 @@ public class BudgetController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete-one-budget/{id}")
     public void delete(@PathVariable Long id) {
         try {
             budgetService.deleteBudget(id);
@@ -70,7 +70,7 @@ public class BudgetController {
         }
     }
 
-    @GetMapping("/byCategory/{category}")
+    @GetMapping("/get-budgets-by-Category/{category}")
     public List<Budget> getBudgetsByCategory(@PathVariable String category) {
         try {
             List<Budget> budgets = budgetService.getBudgetsByCategory(category);
@@ -83,7 +83,7 @@ public class BudgetController {
         }
     }
 
-    @DeleteMapping("/deleteAll")
+    @DeleteMapping("/delete-All-Budgets")
     public ResponseEntity<String> deleteAllBudgets() {
         // Check if there are any budgets to delete
         List<Budget> budgets = budgetService.getAllBudgets();

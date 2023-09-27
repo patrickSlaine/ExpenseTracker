@@ -30,12 +30,12 @@ public class ExpenseController {
     @Autowired
     private ExpenseService expenseService;
 
-    @GetMapping
+    @GetMapping("get-all-expenses")
     public List<Expense> getAll() {
         return expenseService.getAllExpenses();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("get-one-expense/{id}")
     public Expense getById(@PathVariable Long id) {
         Optional<Expense> expenseOptional = expenseService.getExpenseById(id);
         if (expenseOptional.isPresent()) {
@@ -46,12 +46,12 @@ public class ExpenseController {
     }
 
 
-    @PostMapping
+    @PostMapping("/add-New-Expense")
     public Expense post(@Valid @RequestBody Expense expense) {
         return expenseService.saveExpense(expense);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("edit-Expense/{id}")
     public Expense put(@PathVariable Long id, @Valid @RequestBody Expense expense) {
         try {
             return expenseService.updateExpense(id, expense);
@@ -60,7 +60,7 @@ public class ExpenseController {
         }
     }
 
-    @GetMapping("/expenses/totalByCategory/{category}")
+    @GetMapping("/expenses/total-Amount-Spent-By-Category/{category}")
     public double getTotalExpensesByCategory(@PathVariable String category) {
         List<Expense> expenses = expenseService.getExpensesByCategory(category);
 
@@ -72,7 +72,7 @@ public class ExpenseController {
     }
 
 
-    @GetMapping("/{category}/availableBudget")
+    @GetMapping("/{category}/available-Budget-By-Category")
     public double getAvailableBudgetAfterExpenses(@PathVariable String category) {
 
         List<Expense> expenses = expenseService.getExpensesByCategory(category);
@@ -99,7 +99,7 @@ public class ExpenseController {
         return availableBudget;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("Delete-One/{id}")
     public void delete(@PathVariable Long id) {
         try {
             expenseService.deleteExpense(id);
@@ -109,7 +109,7 @@ public class ExpenseController {
             throw new ResponseStatusException(NOT_FOUND, "Error occurred while deleting the expense with ID: " + id, e);
         }
     }
-    @GetMapping("/api/expenses-by-category")
+    @GetMapping("/api/list-expenses-by-category")
     public ResponseEntity<List<Expense>> getExpensesByCategory(@RequestParam String category) {
         List<Expense> expenses = expenseService.getExpensesByCategory(category);
         return new ResponseEntity<>(expenses, HttpStatus.OK);
@@ -122,7 +122,7 @@ public class ExpenseController {
         return new ResponseEntity<>(expenses, HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteAll")
+    @DeleteMapping("/delete-All")
     public String deleteAllExpenses() {
         try {
             expenseService.deleteAllExpenses();
